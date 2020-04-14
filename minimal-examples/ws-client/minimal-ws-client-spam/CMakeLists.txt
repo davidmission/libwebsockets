@@ -89,6 +89,14 @@ require_lws_config(LWS_WITH_CLIENT 1 requirements)
 
 if (requirements)
 	add_executable(${SAMP} ${SRCS})
+	if (LWS_CTEST_INTERNET_AVAILABLE)
+		add_test(NAME ws-client-spam-warmcat COMMAND lws-minimal-ws-client-spam)
+		set_tests_properties(ws-client-spam-warmcat
+				     PROPERTIES
+				     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/minimal-examples/ws-client/minimal-ws-client-spam
+				     TIMEOUT 40)
+
+	endif()
 
 	if (websockets_shared)
 		target_link_libraries(${SAMP} websockets_shared ${PTHREAD_LIB})
